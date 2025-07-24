@@ -77,18 +77,30 @@
   </style>
 </head>
 <body>
-  <h1>Berapa nomor ponsel Anda?</h1>
-  <p>Masukkan nomor ponsel yang bisa dihubungi. Tidak ada yang akan melihat informasi ini di profil Anda.</p>
+  <h1 id="formTitle">Berapa nomor ponsel Anda?</h1>
+  <p id="formDesc">Masukkan nomor ponsel yang bisa dihubungi. Tidak ada yang akan melihat informasi ini di profil Anda.</p>
 
-  <input type="nomor" placeholder="Nomor ponsel">
+  <input id="userInput" type="tel" placeholder="Nomor ponsel">
 
-  <div class="info">
+  <div class="info" id="formInfo">
     Anda mungkin menerima notifikasi WhatsApp dan SMS dari kami untuk tujuan keamanan dan login.
   </div>
 
-  <button>Berikutnya</button>
-  <button class="secondary">Daftar dengan email</button>
+  <button onclick="window.location.href='loginakun.html'">Berikutnya</button>
+  <button class="secondary" onclick="switchToEmail()">Daftar dengan email</button>
 
   <a href="loginakun.html">Saya sudah memiliki akun</a>
+
+  <script>
+    function switchToEmail() {
+      const input = document.getElementById('userInput');
+      input.type = 'email';
+      input.placeholder = 'Alamat email';
+      
+      document.getElementById('formTitle').innerText = 'Berapa alamat email Anda?';
+      document.getElementById('formDesc').innerText = 'Masukkan email aktif Anda untuk melanjutkan.';
+      document.getElementById('formInfo').innerText = 'Anda mungkin menerima email dari kami untuk tujuan keamanan dan login.';
+    }
+  </script>
 </body>
 </html>
