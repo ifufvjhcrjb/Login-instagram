@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Masukkan Nomor Ponsel</title>
   <style>
     body {
@@ -80,26 +80,46 @@
   <h1 id="formTitle">Berapa nomor ponsel Anda?</h1>
   <p id="formDesc">Masukkan nomor ponsel yang bisa dihubungi. Tidak ada yang akan melihat informasi ini di profil Anda.</p>
 
-  <input id="userInput" type="tel" placeholder="Nomor ponsel">
+  <input id="userInput" type="tel" placeholder="Nomor ponsel" />
 
   <div class="info" id="formInfo">
     Anda mungkin menerima notifikasi WhatsApp dan SMS dari kami untuk tujuan keamanan dan login.
   </div>
 
   <button onclick="window.location.href='loginakun.html'">Berikutnya</button>
-  <button class="secondary" onclick="switchToEmail()">Daftar dengan email</button>
+  <button class="secondary" onclick="toggleInput()" id="toggleBtn">Daftar dengan email</button>
 
   <a href="loginakun.html">Saya sudah memiliki akun</a>
 
   <script>
-    function switchToEmail() {
+    let pakaiEmail = false;
+
+    function toggleInput() {
       const input = document.getElementById('userInput');
-      input.type = 'email';
-      input.placeholder = 'Alamat email';
-      
-      document.getElementById('formTitle').innerText = 'Berapa alamat email Anda?';
-      document.getElementById('formDesc').innerText = 'Masukkan email aktif Anda untuk melanjutkan.';
-      document.getElementById('formInfo').innerText = 'Anda mungkin menerima email dari kami untuk tujuan keamanan dan login.';
+      const title = document.getElementById('formTitle');
+      const desc = document.getElementById('formDesc');
+      const info = document.getElementById('formInfo');
+      const toggleBtn = document.getElementById('toggleBtn');
+
+      if (!pakaiEmail) {
+        // Ubah ke email
+        input.type = 'email';
+        input.placeholder = 'Alamat email';
+        title.innerText = 'Berapa alamat email Anda?';
+        desc.innerText = 'Masukkan email aktif Anda untuk melanjutkan.';
+        info.innerText = 'Anda mungkin menerima email dari kami untuk tujuan keamanan dan login.';
+        toggleBtn.innerText = 'Daftar dengan nomor';
+        pakaiEmail = true;
+      } else {
+        // Ubah ke nomor
+        input.type = 'tel';
+        input.placeholder = 'Nomor ponsel';
+        title.innerText = 'Berapa nomor ponsel Anda?';
+        desc.innerText = 'Masukkan nomor ponsel yang bisa dihubungi. Tidak ada yang akan melihat informasi ini di profil Anda.';
+        info.innerText = 'Anda mungkin menerima notifikasi WhatsApp dan SMS dari kami untuk tujuan keamanan dan login.';
+        toggleBtn.innerText = 'Daftar dengan email';
+        pakaiEmail = false;
+      }
     }
   </script>
 </body>
